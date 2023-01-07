@@ -52,7 +52,7 @@ export class mysNews extends plugin {
 
   async greet() {
     const rand = Math.random()
-    if (this.e.msg.includes('早上好') && rand <= 0.3) {
+    if (this.e.msg.includes('早上好') && rand <= 0.2) {
       console.log('[日常问候] 宴宁彩蛋语音')
 
       /** 包包：困呐困呐困呐啊啊啊啊！ */
@@ -92,7 +92,7 @@ export class mysNews extends plugin {
 
     console.log('[日常问候] 今日角色： ' + role.name)
 
-    const voiceReidsKey = `VoicePlugin::${role.name}`
+    const voiceReidsKey = `VoicePlugin::${role.id}`
     let sourceInfo = await redis.get(voiceReidsKey)
 
     if (sourceInfo) {
@@ -120,14 +120,19 @@ export class mysNews extends plugin {
         })
       }
 
-      redis.set(voiceReidsKey, JSON.stringify(sourceInfo))
+      redis.set(voiceReidsKey, JSON.stringify(sourceInfo), { EX: 3600 * 24 * 30 })
     }
 
     if (first) {
       await this.reply(segment.record(sourceInfo.find(i => i.name.includes('初次见面')).url))
     }
 
-    const msg = segment.record(sourceInfo.find(i => i.name.includes(this.e.msg.split('T')[1])).url)
+    let keyword = this.e.msg
+    if (this.e.msg.includes('T')) {
+      keyword = this.e.msg.split('T')[1]
+    }
+
+    const msg = segment.record(sourceInfo.find(i => i.name.includes(keyword)).url)
     await this.reply(msg)
   }
 }
