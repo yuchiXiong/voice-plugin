@@ -56,6 +56,7 @@ export class mysNews extends plugin {
 
   /** 语音回复 我就是绫华小姐的狗 */
   async dog() {
+    console.log('[绫华]让我看看……')
     if (Math.random() >= 0.05) return
 
     console.log('[绫华]关键字匹配')

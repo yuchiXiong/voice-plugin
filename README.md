@@ -22,6 +22,6 @@ enjoy it!
 ## 功能介绍
 | 指令 | 说明 |
 | :---: | --- |
-| `困呐啊` | [荧 CV 宴宁直播语音：怎么还在睡啊](https://www.bilibili.com/video/BV1NS4y1q7n3/?spm_id_from=333.337.search-card.all.click) |
-| `早上好 or 中午好 or 晚上好` | 角色米游社配音<br /> `早上好` 词条会有20%(不固定，可能会调整)概率触发[荧 CV 宴宁直播语音：困呐困呐困呐](https://www.bilibili.com/video/BV14R4y1f7Ei/?spm_id_from=333.337.search-card.all.click&vd_source=d1b989264b8b671d1a2be75bf67c00b0)，~~毕竟工作日的早上是真的困~~<br /> 每天只会随机拉取一位角色，当天的角色语音都为该角色，`redis` 使用日期作为 `key` 如 `2022-01-01` |
+| `困呐啊` | [荧妹CV直播切片语音：气死了，怎么还在睡啊！](https://www.bilibili.com/video/BV1NS4y1q7n3/?spm_id_from=333.337.search-card.all.click) |
+| `早上好 or 中午好 or 晚上好` | 角色米游社配音<br /> `早上好` 关键词会有 20% 概率(不固定，可能会随时调整)触发 [荧妹CV直播切片语音：困呐困呐困呐啊啊啊啊](https://www.bilibili.com/video/BV14R4y1f7Ei/?spm_id_from=333.337.search-card.all.click&vd_source=d1b989264b8b671d1a2be75bf67c00b0)，~~毕竟工作日的早上是真的困~~<br /> 每天只会随机选择一位角色，`redis` 使用日期作为 `key` 如 `2022-01-01` |
 
