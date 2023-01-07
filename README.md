@@ -17,6 +17,7 @@ pnpm add cheerio -w
 
 enjoy it!
 
+如遇到 `ffmpeg` 转 `amr` 相关问题，可查看[云崽 Bot 帮助文档进行安装/编译](https://github.com/Le-niao/Yunzai-Bot/issues/154#17-%E5%AE%89%E8%A3%85-ffmpeg%E5%8F%AF%E9%80%89)
 
 ## 功能介绍
 | 指令 | 说明 |
