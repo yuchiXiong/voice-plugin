@@ -41,7 +41,7 @@ export class mysNews extends plugin {
   /** 语音回复 困呐困呐困呐啊啊啊啊 */
   async sleepy() {
     /** 包包：怎么还在睡啊！ */
-    const file = fs.readFileSync('./plugins/genshin/audio/sleepy.wav')
+    const file = fs.readFileSync('./plugins/voice-plugin/audio/sleepy.wav')
 
     const msg = segment.record(file)
     await this.reply(msg)
