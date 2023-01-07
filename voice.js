@@ -26,6 +26,10 @@ export class mysNews extends plugin {
         {
           reg: '困呐啊',
           fnc: 'sleepy'
+        },
+        {
+          reg: '绫华',
+          fnc: 'dog'
         }
       ]
     })
@@ -45,6 +49,19 @@ export class mysNews extends plugin {
 
     /** 包包：怎么还在睡啊！ */
     const file = fs.readFileSync('./plugins/voice-plugin/audio/wakeUp.wav')
+
+    const msg = segment.record(file)
+    await this.reply(msg)
+  }
+
+  /** 语音回复 我就是绫华小姐的狗 */
+  async dog() {
+    if (Math.random() >= 0.05) return
+
+    console.log('[绫华]关键字匹配')
+
+    /** 包包：我就是绫华小姐的狗！ */
+    const file = fs.readFileSync('./plugins/voice-plugin/audio/dog.wav')
 
     const msg = segment.record(file)
     await this.reply(msg)
