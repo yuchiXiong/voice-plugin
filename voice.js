@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import gsCfg from '../genshin/model/gsCfg.js'
 import { load } from 'cheerio'
 import { segment } from 'oicq'
+import fetch from 'node-fetch'
 
 gsCfg.cpCfg('mys', 'pushNews')
 export class mysNews extends plugin {
