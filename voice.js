@@ -10,18 +10,17 @@ export class mysNews extends plugin {
   constructor(e) {
     super({
       name: '角色语音彩蛋',
-      dsc: '#公告 #资讯 #活动',
+      dsc: '#早上好 #中午好 #晚上好 #晚安',
       event: 'message',
       priority: 700,
       rule: [
         {
           reg: '^早上好|中午好|晚上好|晚安$',
-          // reg: '^T(早上好|中午好|晚上好|晚安)$',
           fnc: 'greet'
         },
         {
-          reg: '^刮大风了$',
-          fnc: 'greet'
+          reg: '#*语音 *',
+          fnc: 'allVoicePick'
         },
         {
           reg: '困呐啊',
@@ -68,6 +67,7 @@ export class mysNews extends plugin {
     await this.reply(msg)
   }
 
+  /** 角色问好 */
   async greet() {
     const rand = Math.random()
     if (this.e.msg.includes('早上好') && rand <= 0.2) {
@@ -93,15 +93,9 @@ export class mysNews extends plugin {
       role = JSON.parse(role)
     } else {
       /** 角色wiki */
-      const allRoleWikiUrl = 'https://api-static.mihoyo.com/common/blackboard/ys_obc/v1/home/content/list?app_sn=ys_obc&channel_id=189'
-      const _res = await (await fetch(allRoleWikiUrl)).json()
+      const allRoleWiki = await this.fetchAllRoleWiki()
 
-      const allRoleObj = _res.data.list[0].children[0].list.map(i => ({
-        id: i.content_id,
-        name: i.title
-      }))
-
-      role = allRoleObj[Math.floor(Math.random() * allRoleObj.length)]
+      role = allRoleWiki[Math.floor(Math.random() * allRoleWiki.length)]
 
       first = true
 
@@ -110,13 +104,71 @@ export class mysNews extends plugin {
 
     console.log('[日常问候] 今日角色： ' + role.name)
 
-    const voiceReidsKey = `VoicePlugin::${role.id}`
+    const allVoices = await this.fetchRoleVoice(role.id)
+
+    if (first) {
+      await this.reply(segment.record(allVoices.find(i => i.name.includes('初次见面')).url))
+    }
+
+    let keyword = this.e.msg
+    if (this.e.msg.includes('T')) {
+      keyword = this.e.msg.split('T')[1]
+    }
+
+    const msg = segment.record(allVoices.find(i => i.name.includes(keyword)).url)
+    await this.reply(msg)
+  }
+
+  /** 生成指定角色的语音消息 */
+  async allVoicePick() {
+    const msg = this.e.msg.replace(/(#|语音)/g, ' ').split(' ').filter(i => i !== '' && i !== ' ')
+    const roleName = msg[0]
+    const seg = msg[1]
+
+    const allRoleWiki = await this.fetchAllRoleWiki()
+    const role = allRoleWiki.find(role => role.name === roleName)
+
+    const voices = await this.fetchRoleVoice(role.id)
+
+    const targetVoice = voices.find(i => i.name.includes(seg))
+
+    if (targetVoice) {
+      await this.reply(segment.record(targetVoice.url))
+    } else {
+      await this.reply('呃呃……没有找到对应语音条目')
+    }
+  }
+
+  /** 拉取所有角色的wiki词条并返回 */
+  async fetchAllRoleWiki() {
+    /** 角色wiki */
+    const allRoleWikiUrlKey = 'Voice::AllRoleWiki'
+    let allRoleWiki = await redis.get(allRoleWikiUrlKey)
+
+    if (allRoleWiki) {
+      allRoleWiki = JSON.parse(allRoleWiki)
+    } else {
+      const allRoleWikiUrl = 'https://api-static.mihoyo.com/common/blackboard/ys_obc/v1/home/content/list?app_sn=ys_obc&channel_id=189'
+      const _res = await (await fetch(allRoleWikiUrl)).json()
+      allRoleWiki = _res.data.list[0].children[0].list.map(i => ({
+        id: i.content_id,
+        name: i.title
+      }))
+      redis.set(allRoleWikiUrlKey, JSON.stringify(allRoleWiki))
+    }
+
+    return allRoleWiki
+  }
+
+  /** 拉取指定角色的语音词条并返回 */
+  async fetchRoleVoice(roleId) {
+    const voiceReidsKey = `VoicePlugin::${roleId}`
     let sourceInfo = await redis.get(voiceReidsKey)
 
     if (sourceInfo) {
       sourceInfo = JSON.parse(sourceInfo)
     } else {
-      const url = `https://api-static.mihoyo.com/common/blackboard/ys_obc/v1/content/info?app_sn=ys_obc&content_id=${role.id}`
+      const url = `https://api-static.mihoyo.com/common/blackboard/ys_obc/v1/content/info?app_sn=ys_obc&content_id=${roleId}`
       const headers = {
         Referer: 'https://bbs.mihoyo.com/',
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
@@ -141,16 +193,6 @@ export class mysNews extends plugin {
       redis.set(voiceReidsKey, JSON.stringify(sourceInfo), { EX: 3600 * 24 * 30 })
     }
 
-    if (first) {
-      await this.reply(segment.record(sourceInfo.find(i => i.name.includes('初次见面')).url))
-    }
-
-    let keyword = this.e.msg
-    if (this.e.msg.includes('T')) {
-      keyword = this.e.msg.split('T')[1]
-    }
-
-    const msg = segment.record(sourceInfo.find(i => i.name.includes(keyword)).url)
-    await this.reply(msg)
+    return sourceInfo
   }
 }
