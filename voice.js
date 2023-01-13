@@ -31,8 +31,16 @@ export class mysNews extends plugin {
           fnc: 'dog'
         },
         {
-          reg: '恋人行为',
+          reg: '#恋人待遇',
           fnc: 'ora'
+        },
+        {
+          reg: '#这是一场试炼*',
+          fnc: 'diyaboro'
+        },
+        {
+          reg: '#我的名字叫吉良吉影*',
+          fnc: 'KiraYoshikage'
         }
       ]
     })
@@ -59,10 +67,24 @@ export class mysNews extends plugin {
 
   /** 语音回复 欧拉欧拉欧拉欧拉 */
   async ora() {
-    if (Math.random() >= 0.5) return
-
-    /** 包包：怎么还在睡啊！ */
     const file = fs.readFileSync('./plugins/voice-plugin/audio/ora.wav')
+
+    const msg = segment.record(file)
+    await this.reply(msg)
+  }
+
+  /** 语音回复 这是一场试炼…… */
+  async diyaboro() {
+    const file = fs.readFileSync('./plugins/voice-plugin/audio/diyaboro.mp3')
+
+    const msg = segment.record(file)
+    await this.reply(msg)
+  }
+
+  /** 语音回复 我的名字叫吉良吉影…… */
+  async KiraYoshikage() {
+    if (Math.random() >= 0.05) return
+    const file = fs.readFileSync('./plugins/voice-plugin/audio/KiraYoshikage.mp3')
 
     const msg = segment.record(file)
     await this.reply(msg)
