@@ -29,6 +29,10 @@ export class mysNews extends plugin {
         {
           reg: '绫华',
           fnc: 'dog'
+        },
+        {
+          reg: '恋人行为',
+          fnc: 'ora'
         }
       ]
     })
@@ -48,6 +52,17 @@ export class mysNews extends plugin {
 
     /** 包包：怎么还在睡啊！ */
     const file = fs.readFileSync('./plugins/voice-plugin/audio/wakeUp.wav')
+
+    const msg = segment.record(file)
+    await this.reply(msg)
+  }
+
+  /** 语音回复 欧拉欧拉欧拉欧拉 */
+  async ora() {
+    if (Math.random() >= 0.5) return
+
+    /** 包包：怎么还在睡啊！ */
+    const file = fs.readFileSync('./plugins/voice-plugin/audio/ora.wav')
 
     const msg = segment.record(file)
     await this.reply(msg)
