@@ -9,7 +9,7 @@ gsCfg.cpCfg('mys', 'pushNews')
 export class mysNews extends plugin {
   constructor(e) {
     super({
-      name: '角色语音彩蛋',
+      name: '语音模块',
       dsc: '#早上好 #中午好 #晚上好 #晚安',
       event: 'message',
       priority: 700,
@@ -31,16 +31,8 @@ export class mysNews extends plugin {
           fnc: 'dog'
         },
         {
-          reg: '#恋人待遇',
-          fnc: 'ora'
-        },
-        {
-          reg: '#这是一场试炼*',
-          fnc: 'diyaboro'
-        },
-        {
-          reg: '#我的名字叫吉良吉影*',
-          fnc: 'KiraYoshikage'
+          reg: '得得得',
+          fnc: 'paimenH5'
         }
       ]
     })
@@ -54,7 +46,7 @@ export class mysNews extends plugin {
     fs.copyFileSync('./plugins/genshin/defSet/mys/pushNews.yaml', this.file)
   }
 
-  /** 语音回复 困呐困呐困呐啊啊啊啊 */
+  /** 语音: 困呐困呐困呐啊啊啊啊 */
   async sleepy() {
     if (Math.random() >= 0.8) return
 
@@ -65,28 +57,23 @@ export class mysNews extends plugin {
     await this.reply(msg)
   }
 
-  /** 语音回复 欧拉欧拉欧拉欧拉 */
-  async ora() {
-    const file = fs.readFileSync('./plugins/voice-plugin/audio/ora.wav')
+  /** 派蒙H5语音 */
+  async paimenH5() {
+    if (Math.random() > 0.8) return
+    const url = [
+      // 妮露
+      'https://genshin.1752e.com/ys/1/ys_xgkc/resource/sound/select4_0.mp3?v=7',
+      // 荒泷一斗
+      'https://genshin.1752e.com/ys/1/ys_xgkc/resource/sound/select1_0.mp3?v=7',
+      // 神里绫人
+      'https://genshin.1752e.com/ys/1/ys_xgkc/resource/sound/select2_0.mp3?v=7',
+      // 纳西妲
+      'https://genshin.1752e.com/ys/1/ys_xgkc/resource/sound/select5_0.mp3?v=7',
+      // 夜兰
+      'https://genshin.1752e.com/ys/1/ys_xgkc/resource/sound/select3_0.mp3?v=7'
+    ][Math.floor(Math.random() * 5)]
 
-    const msg = segment.record(file)
-    await this.reply(msg)
-  }
-
-  /** 语音回复 这是一场试炼…… */
-  async diyaboro() {
-    const file = fs.readFileSync('./plugins/voice-plugin/audio/diyaboro.mp3')
-
-    const msg = segment.record(file)
-    await this.reply(msg)
-  }
-
-  /** 语音回复 我的名字叫吉良吉影…… */
-  async KiraYoshikage() {
-    if (Math.random() >= 0.05) return
-    const file = fs.readFileSync('./plugins/voice-plugin/audio/KiraYoshikage.mp3')
-
-    const msg = segment.record(file)
+    const msg = segment.record(url)
     await this.reply(msg)
   }
 
@@ -199,8 +186,8 @@ export class mysNews extends plugin {
 
   /** 拉取指定角色的语音词条并返回 */
   async fetchRoleVoice(roleId) {
-    const voiceReidsKey = `VoicePlugin::${roleId}`
-    let sourceInfo = await redis.get(voiceReidsKey)
+    const voiceRedisKey = `VoicePlugin::${roleId}`
+    let sourceInfo = await redis.get(voiceRedisKey)
 
     if (sourceInfo) {
       sourceInfo = JSON.parse(sourceInfo)
@@ -227,7 +214,7 @@ export class mysNews extends plugin {
         })
       }
 
-      redis.set(voiceReidsKey, JSON.stringify(sourceInfo), { EX: 3600 * 24 * 30 })
+      redis.set(voiceRedisKey, JSON.stringify(sourceInfo), { EX: 3600 * 24 * 30 })
     }
 
     return sourceInfo
