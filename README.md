@@ -22,6 +22,12 @@ enjoy it!
 ## 功能介绍
 | 指令 | 说明 |
 | :---: | --- |
-| `困呐啊` | [荧妹CV直播切片语音：气死了，怎么还在睡啊！](https://www.bilibili.com/video/BV1NS4y1q7n3/?spm_id_from=333.337.search-card.all.click) |
-| `早上好 or 中午好 or 晚上好` | 角色米游社配音<br /> `早上好` 关键词会有 20% 概率(不固定，可能会随时调整)触发 [荧妹CV直播切片语音：困呐困呐困呐啊啊啊啊](https://www.bilibili.com/video/BV14R4y1f7Ei/?spm_id_from=333.337.search-card.all.click&vd_source=d1b989264b8b671d1a2be75bf67c00b0) 语音，~~工作日的早上是真的困~~<br /> 每天只会随机选择一位角色，`Redis` 使用日期作为 `key` 如 `2022-01-01` |
+| `#角色名语音 米游设词条`（例`#胡桃语音 元素爆发·其一`) | 播放米友社对应配音词条语音，配音词条使用`includes`按顺序匹配，角色名完整匹配，无别名 |
+
+| `得得得` | 随机一条派蒙的星光考查角色pv语音 |
+
+| `*困呐啊*` | [荧妹CV直播切片语音：气死了，怎么还在睡啊！](https://www.bilibili.com/video/BV1NS4y1q7n3/?spm_id_from=333.337.search-card.all.click) |
+
+| `早上好 or 中午好 or 晚上好 or 晚安` | 角色米游社配音<br /> `早上好` 关键词会有 20% 概率(不固定，可能会随时调整)触发 [荧妹CV直播切片语音：困呐困呐困呐啊啊啊啊](https://www.bilibili.com/video/BV14R4y1f7Ei/?spm_id_from=333.337.search-card.all.click&vd_source=d1b989264b8b671d1a2be75bf67c00b0) 语音，~~工作日的早上是真的困~~<br /> 每天只会随机选择一位角色，`Redis` 使用日期作为 `key` 如 `2022-01-01` |
+
 | 关键字 `绫华` | 聊天记录中包含关键字 `绫华` 时，有 5% 概率（不固定，可能会随时调整）触发 [人类圣经：我 是 神 里 绫 华 的 狗](https://www.bilibili.com/video/BV1Ru411Z7c1/?spm_id_from=333.788.recommend_more_video.0&vd_source=d1b989264b8b671d1a2be75bf67c00b0) 语音效果 |
