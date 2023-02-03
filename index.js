@@ -108,7 +108,7 @@ export class mysNews extends plugin {
     const _d = new Date()
     const today = `${_d.getFullYear()}-${_d.getMonth() + 1}-${_d.getDay()}`
 
-    const redisKey = `VoicePlugin#greet[${today}]`
+    const redisKey = `VoicePlugin#greet[${today}]::[${this.e.group_id || this.e.from_id}]`
 
     let role = await redis.get(redisKey)
     let first = false
@@ -120,6 +120,14 @@ export class mysNews extends plugin {
       const allRoleWiki = await this.fetchAllRoleWiki()
 
       role = allRoleWiki[Math.floor(Math.random() * allRoleWiki.length)]
+
+      while (true) {
+        if (!role.name.includes('旅行者')) {
+          break;
+        } else {
+          role = allRoleWiki[Math.floor(Math.random() * allRoleWiki.length)]
+        }
+      }
 
       first = true
 
