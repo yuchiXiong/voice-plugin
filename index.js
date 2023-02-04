@@ -117,17 +117,9 @@ export class mysNews extends plugin {
       role = JSON.parse(role)
     } else {
       /** 角色wiki */
-      const allRoleWiki = await this.fetchAllRoleWiki()
+      const allRoleWiki = (await this.fetchAllRoleWiki()).filter(i => !i.name.includes('旅行者'))
 
       role = allRoleWiki[Math.floor(Math.random() * allRoleWiki.length)]
-
-      while (true) {
-        if (!role.name.includes('旅行者')) {
-          break;
-        } else {
-          role = allRoleWiki[Math.floor(Math.random() * allRoleWiki.length)]
-        }
-      }
 
       first = true
 
