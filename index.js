@@ -178,7 +178,7 @@ export class mysNews extends plugin {
         id: i.content_id,
         name: i.title
       }))
-      redis.set(allRoleWikiUrlKey, JSON.stringify(allRoleWiki))
+      redis.set(allRoleWikiUrlKey, JSON.stringify(allRoleWiki), { EX: 3600 * 36 })
     }
 
     return allRoleWiki
