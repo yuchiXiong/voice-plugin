@@ -9,7 +9,7 @@ cd Yunzai-Bot/plugins/
 git clone https://github.com/yuchiXiong/voice-plugin.git
 ```
 
-插件使用 [cheerio](https://cheerio.js.org/) 解析，因此您需要安装依赖
+插件使用 [cheerio](https://cheerio.js.org/) 解析米游社 HTML ，因此您需要安装依赖
 
 ```
 pnpm add cheerio -w
@@ -18,6 +18,8 @@ pnpm add cheerio -w
 enjoy it!
 
 如遇到 `ffmpeg` 转 `amr` 相关问题，可查看[云崽 Bot 帮助文档进行安装/编译](https://github.com/Le-niao/Yunzai-Bot/issues/154#17-%E5%AE%89%E8%A3%85-ffmpeg%E5%8F%AF%E9%80%89)
+
+> 另：有关于从 [OCIQ](https://github.com/takayama-lily/oicq) 协议库中移除 ffmpeg 的 [PR](https://github.com/takayama-lily/oicq/pull/484) 在进行中，有兴趣的可以参与进来。
 
 ## 功能介绍
 | 指令 | 说明 |
