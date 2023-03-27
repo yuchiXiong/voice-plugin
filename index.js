@@ -2,8 +2,11 @@ import plugin from '../../lib/plugins/plugin.js'
 import fs from 'node:fs'
 import gsCfg from '../genshin/model/gsCfg.js'
 import { load } from 'cheerio'
-import { segment } from 'oicq'
 import fetch from 'node-fetch'
+
+if (!global.segment) {
+  global.segment = (await import("oicq")).segment
+}
 
 gsCfg.cpCfg('mys', 'pushNews')
 export class mysNews extends plugin {
